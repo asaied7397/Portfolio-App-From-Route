@@ -118,9 +118,9 @@ document.addEventListener("click", (e) => {
 //scroll spy on page and set colors from localstorage
 document.addEventListener("DOMContentLoaded", () => {
   var primary, secondary, accent;
-  primary = localStorage.getItem("primary");
-  secondary = localStorage.getItem("secondary");
-  accent = localStorage.getItem("accent");
+  primary = localStorage.getItem("primary") || "#6366f1";
+  secondary = localStorage.getItem("secondary") || "#8b5cf6";
+  accent = localStorage.getItem("accent") || "#a855f7";
   document.documentElement.style = `--color-primary: ${primary}; --color-secondary: ${secondary}; --color-accent: ${accent};`;
   document.documentElement.classList.replace(
     "dark",
@@ -129,6 +129,12 @@ document.addEventListener("DOMContentLoaded", () => {
   document.body.classList.add(localStorage.getItem("font"));
   fontButtons.forEach((btn) => {
     if (btn.getAttribute("data-font") === localStorage.getItem("data-font")) {
+      btn.classList.replace("border-slate-200", "active");
+      btn.classList.replace("dark:border-slate-700", "border-primary");
+    } else if (
+      btn.getAttribute("data-font") === "tajawal" &&
+      !localStorage.getItem("data-font")
+    ) {
       btn.classList.replace("border-slate-200", "active");
       btn.classList.replace("dark:border-slate-700", "border-primary");
     }
@@ -182,6 +188,37 @@ document.addEventListener("DOMContentLoaded", () => {
 
   sections.forEach((section) => observer.observe(section));
 });
+
+// //only scrollspy
+// var navLinks = document.querySelectorAll("nav a[href^='#']");
+// var sections = document.querySelectorAll("section[id]");
+
+// function setActiveSection(id) {
+//   navLinks.forEach((link) => {
+//     var isActive = link.getAttribute("href") === `#${id}`;
+//     link.classList.toggle("active", isActive);
+//   });
+// }
+
+// function checkSectionsVisibility() {
+//   let bestId = null;
+//   let bestDistance = Infinity;
+
+//   sections.forEach((section) => {
+//     var distance = Math.abs(section.offsetTop - window.scrollY);
+
+//     if (distance < bestDistance) {
+//       bestDistance = distance;
+//       bestId = section.id;
+//     }
+//   });
+
+//   if (bestId) {
+//     setActiveSection(bestId);
+//   }
+// }
+// window.addEventListener("scroll", checkSectionsVisibility);
+// checkSectionsVisibility();
 
 //Carousel in testimonials section
 function goToTestimonialSlide(index) {
